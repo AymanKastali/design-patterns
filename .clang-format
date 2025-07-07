@@ -1,0 +1,4 @@
+BasedOnStyle: LLVM
+PointerAlignment: Left
+ColumnLimit: 80
+AllowShortFunctionsOnASingleLine: None
