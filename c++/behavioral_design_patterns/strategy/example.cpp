@@ -1,40 +1,42 @@
 #include <iostream>
+#include <memory>
 #include <string>
-using std::string, std::cout;
+using std::string, std::cout, std::unique_ptr, std::make_unique, std::move;
 
 class ITextFormatter {
 public:
-  virtual void format(const string& text) = 0;
-  virtual ~ITextFormatter() {};
+  virtual ~ITextFormatter(){};
+  virtual void format(const string& text) const = 0;
 };
 
 class PlainTextFormatter : public ITextFormatter {
 public:
-  void format(const string& text) {
+  void format(const string& text) const override {
     cout << "Plain: " << text << "\n";
   };
 };
 
 class MarkdownFormatter : public ITextFormatter {
 public:
-  void format(const string& text) {
+  void format(const string& text) const override {
     cout << "Markdown: **" << text << "**" << "\n";
   };
 };
 
 class HtmlFormatter : public ITextFormatter {
 public:
-  void format(const string& text) override {
+  void format(const string& text) const override {
     cout << "HTML: <b>" << text << "</b>" << "\n";
   }
 };
 
 class TextEditor {
 public:
-  TextEditor(ITextFormatter* f) : formatter(f) {};
+  TextEditor(unique_ptr<ITextFormatter> f) : formatter(move(f)) {
+  }
 
-  void setFormatter(ITextFormatter* f) {
-    formatter = f;
+  void setFormatter(unique_ptr<ITextFormatter> f) {
+    formatter = move(f);
   };
 
   void publishText(const string& text) {
@@ -42,22 +44,18 @@ public:
   };
 
 private:
-  ITextFormatter* formatter;
+  unique_ptr<ITextFormatter> formatter;
 };
 
 int main() {
   const string message = "Hello, world!";
 
-  PlainTextFormatter plain;
-  MarkdownFormatter markdown;
-  HtmlFormatter html;
-
-  TextEditor editor(&plain);
+  TextEditor editor(make_unique<PlainTextFormatter>());
   editor.publishText(message);
 
-  editor.setFormatter(&markdown);
+  editor.setFormatter(make_unique<MarkdownFormatter>());
   editor.publishText(message);
 
-  editor.setFormatter(&html);
+  editor.setFormatter(make_unique<HtmlFormatter>());
   editor.publishText(message);
 }
