@@ -3,8 +3,7 @@ from abc import ABC, abstractmethod
 
 class ITextFormatter(ABC):
     @abstractmethod
-    def format(self, text: str) -> None:
-        pass
+    def format(self, text: str) -> None: ...
 
 
 class PlainTextFormatter(ITextFormatter):

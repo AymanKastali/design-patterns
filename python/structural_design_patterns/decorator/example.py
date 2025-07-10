@@ -3,8 +3,7 @@ from abc import ABC, abstractmethod
 
 class IText(ABC):
     @abstractmethod
-    def render(self) -> str:
-        pass
+    def render(self) -> str: ...
 
 
 class PlainText(IText):

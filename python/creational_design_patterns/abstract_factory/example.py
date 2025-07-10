@@ -3,14 +3,12 @@ from abc import ABC, abstractmethod
 
 class IButton(ABC):
     @abstractmethod
-    def paint(self) -> None:
-        pass
+    def paint(self) -> None: ...
 
 
 class ICheckbox(ABC):
     @abstractmethod
-    def render(self) -> None:
-        pass
+    def render(self) -> None: ...
 
 
 class WindowsOSButton(IButton):
@@ -35,12 +33,10 @@ class LinuxOSCheckbox(ICheckbox):
 
 class IGUIFactory(ABC):
     @abstractmethod
-    def create_button(self) -> IButton:
-        pass
+    def create_button(self) -> IButton: ...
 
     @abstractmethod
-    def create_checkbox(self) -> ICheckbox:
-        pass
+    def create_checkbox(self) -> ICheckbox: ...
 
 
 class WindowsOSFactory(IGUIFactory):
