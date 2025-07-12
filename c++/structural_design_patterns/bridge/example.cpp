@@ -37,21 +37,21 @@ public:
   };
 };
 
-class Shape {
+class IShape {
 public:
-  Shape(shared_ptr<IDrawingAPI> drawingApi) : api(move(drawingApi)) {
+  IShape(shared_ptr<IDrawingAPI> drawingApi) : api(move(drawingApi)) {
   }
-  virtual ~Shape() = default;
+  virtual ~IShape() = default;
   virtual void draw() const = 0;
 
 protected:
   shared_ptr<IDrawingAPI> api;
 };
 
-class Circle : public Shape {
+class Circle : public IShape {
 public:
   Circle(int x, int y, int radius, shared_ptr<IDrawingAPI> api)
-      : Shape(move(api)), x(x), y(y), radius(radius) {};
+      : IShape(move(api)), x(x), y(y), radius(radius) {};
   void draw() const override {
     api->drawCircle(x, y, radius);
   };
@@ -60,10 +60,10 @@ private:
   int x, y, radius;
 };
 
-class Rectangle : public Shape {
+class Rectangle : public IShape {
 public:
   Rectangle(int x, int y, int width, int height, shared_ptr<IDrawingAPI> api)
-      : Shape(move(api)), x(x), y(y), width(width), height(height) {};
+      : IShape(move(api)), x(x), y(y), width(width), height(height) {};
 
   void draw() const override {
     api->drawRectangle(x, y, width, height);

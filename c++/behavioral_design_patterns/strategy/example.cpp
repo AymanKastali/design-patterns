@@ -5,7 +5,7 @@ using std::string, std::cout, std::unique_ptr, std::make_unique, std::move;
 
 class ITextFormatter {
 public:
-  virtual ~ITextFormatter(){};
+  virtual ~ITextFormatter() {};
   virtual void format(const string& text) const = 0;
 };
 
